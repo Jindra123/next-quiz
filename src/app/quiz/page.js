@@ -1,7 +1,6 @@
 'use client'
 
 import {useEffect, useState} from "react";
-import tenQuestion from "@/app/api/questions";
 import QuestionCard from "@/components/questionCard";
 
 
@@ -9,39 +8,55 @@ export default function Quiz() {
     const [questionNumber, setQuestionNumber] = useState(0)
     const [statusShown, setStatusShown] = useState(false)
     const [numCorrect, setNumCorrect] = useState(0);
-    const [quizData, setQuizData] = useState(tenQuestion())
+    const [quizData, setQuizData] = useState(null);
     const [currentQuestionCorrect, setCurrentQuestionCorrect] = useState(false);
 
-    const handleClick = (isCorrect) => {
-        setStatusShown(true);
-        setStatusFunction(isCorrect)
-    };
+    useEffect(() => {
+        async function fetchData() {
+            const res = await fetch( '/api/questions');
+            const data = await res.json();
+            setQuizData(data.results);
+            console.log(data.token)
+        }
+        fetchData();
+    },[])
 
-    const setStatusFunction = (status) => {
-        if (status) {
-            setNumCorrect((prevNumCorrect) => prevNumCorrect + 1);
+    const handleClick = (answer) => {
+        setStatusShown(true);
+
+        const correctAnswer = quizData[questionNumber].correct_answer;
+
+        answer === correctAnswer ? setStatus('correct') : setStatus('wrong');
+    }
+
+    const setStatus = (status) => {
+        if (status === "correct") {
+            setNumCorrect(numCorrect + 1);
             setCurrentQuestionCorrect(true);
         } else {
             setCurrentQuestionCorrect(false);
         }
 
         setTimeout(() => switchQuestion(), 750);
-    };
+    }
 
     const switchQuestion = () => {
-        setQuestionNumber((prevQuestionNumber) =>
-            prevQuestionNumber < 4 ? prevQuestionNumber + 1 : false
-        );
         setStatusShown(false);
-    };
+        if (questionNumber < 4) {
+            setQuestionNumber(questionNumber + 1);
+        } else {
+            setQuestionNumber(false);
+        }
+    }
+
+    if(quizData === null) return <div>Loading...</div>;
 
     if (questionNumber !== false) {
         const question = quizData[questionNumber];
+        console.log(question)
 
         return (
             <div>
-                <h1 className="text-3xl font-sans mt-32 md:mt-48 lg:mt-64 font-bold text-gray-800 dark:text-gray-300 text-center">{question.question}</h1>
-                <h3 className="text-3xl font-sans mt-32 md:mt-48 lg:mt-64 font-bold text-gray-800 dark:text-gray-300 text-center">{question.category}</h3>
                 <div className="flex justify-center mt-16">
                     <QuestionCard
                         data={question}
@@ -67,5 +82,5 @@ export default function Quiz() {
         )
     }
 
-    return <div>End quiz</div>;
+    //return <div>End quiz</div>;
 }
