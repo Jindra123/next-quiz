@@ -2,6 +2,7 @@
 
 import {useEffect, useState} from "react";
 import QuestionCard from "@/components/questionCard";
+import EndQuiz from "@/components/endQuiz";
 
 
 export default function Quiz() {
@@ -16,7 +17,6 @@ export default function Quiz() {
             const res = await fetch( '/api/questions');
             const data = await res.json();
             setQuizData(data.results);
-            console.log(data.token)
         }
         fetchData();
     },[])
@@ -53,7 +53,7 @@ export default function Quiz() {
 
     if (questionNumber !== false) {
         const question = quizData[questionNumber];
-        console.log(question)
+        console.log(question);
 
         return (
             <div>
@@ -82,5 +82,5 @@ export default function Quiz() {
         )
     }
 
-    //return <div>End quiz</div>;
+    return <EndQuiz numCorrect={numCorrect} />;
 }
