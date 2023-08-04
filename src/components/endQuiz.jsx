@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 function EndQuiz(props) {
     const percentCorrect = (100 * props.numCorrect) / 5;
 
@@ -19,8 +21,14 @@ function EndQuiz(props) {
     }
 
     return (
-        <div className="flex justify-center items-center">
+        <div className="grid">
             {header}
+            <button onClick={() => window.location.reload(true)} className="bg-gray-900 hover:bg-gray-800 text-white font-bold py-2 px-4 text-center rounded-full mt-10">
+                Play Again
+            </button>
+            <Link href="/" className="bg-white hover:bg-gray-300 text-gray-900 font-bold py-2 text-center rounded-full mt-4">
+                Go Home
+            </Link>
         </div>
     );
 }

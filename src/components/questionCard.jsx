@@ -2,18 +2,12 @@
 function Answer(props) {
     return (
         <div
-            className="bg-gray-100 dark:bg-gray-900 h-16 w-auto mb-4 rounded-md flex items-center w-full"
+            className="bg-gray-900 h-16 w-auto mb-4 rounded-md flex items-center w-full hover:bg-gray-800 cursor-pointer"
             onClick={() => props.onClick(props.answer)}
         >
-            <input
-                type="radio"
-                name="answer"
-                value={props.answer}
-                className="ml-5 dark:bg-gray-800"
-            />
-            <label className="text-gray-700 dark:text-gray-400 text-lg ml-4">
+            <p className="text-gray-400 text-lg ml-4">
                 {props.answer}
-            </label>
+            </p>
         </div>
     );
 }

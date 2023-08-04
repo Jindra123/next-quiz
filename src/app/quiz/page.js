@@ -65,13 +65,13 @@ export default function Quiz() {
                 </div>
                 {statusShown && (
                         currentQuestionCorrect ? (
-                            <div className="flex justify-center mt-16">
+                            <div className="flex justify-center my-16">
                                 <div className="bg-green-500 text-white p-4 rounded-md">
                                     <p className="text-2xl font-bold">Correct!</p>
                                 </div>
                             </div>
                         ) : (
-                            <div className="flex justify-center mt-16">
+                            <div className="flex justify-center my-16">
                                 <div className="bg-red-500 text-white p-4 rounded-md">
                                     <p className="text-2xl font-bold">Incorrect!</p>
                                 </div>
